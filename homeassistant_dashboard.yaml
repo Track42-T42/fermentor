@@ -6,7 +6,7 @@ title: Fermentation Chamber
 views:
   - title: Overview
     path: overview
-    icon: mdi:fermentation
+    icon: mdi:thermometer
     badges: []
     cards:
       # Current Status Card
@@ -15,7 +15,7 @@ views:
           - type: markdown
             content: |
               ## 🍺 Fermentation Chamber
-              **{% if states('select.fermenter_fermenter_mode') == 'High-Temp' %}🔥{% else %}🌡️{% endif %} Mode:** {{ states('select.fermenter_fermenter_mode') }} | **Current Temp:** {{ states('sensor.fermenter_fermenter_control_temp') }}°C
+              **{% if states('select.fermenter_fermenter_mode') == 'High-Temp' %}🔥{% else %}🌡️{% endif %} Mode:** {{ states('select.fermenter_fermenter_mode') }} | **Current Temp:** {{ states('sensor.fermenter_fermenter_control_temp') | round(1) }}°C
 
           # Temperature Control
           - type: thermostat
