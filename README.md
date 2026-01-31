@@ -31,7 +31,11 @@ The system controls 6 relays connected to:
 #### 2. Climate Control
 - PID-style thermostat with heating and cooling
 - Four presets: Ferment (22°C), Sourdough (26°C), ColdCrash (4°C), BlackGarlic (70°C)
-- Selectable temperature source (AHT20 or either external probe)
+- Selectable temperature source:
+  - AHT20 (chamber air temperature)
+  - External 1 (direct product monitoring)
+  - External 2 (direct product monitoring)
+  - Average (Ext 1+2) - ideal for dual ferments
 
 #### 3. Safety Interlocks
 - Heating and cooling **never** run simultaneously

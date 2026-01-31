@@ -47,6 +47,64 @@ The Fan Auto switch enables intelligent fan control:
 - **Turbo post-run**: Extended to 10 minutes minimum after turbo heater use
 - **When OFF**: Fan must be controlled manually
 
+### Temperature Source Selection
+
+The controller supports four temperature sources for climate control:
+
+#### 1. AHT20 (Chamber Air Temperature)
+- **Use case**: General fermentation when chamber air temp is adequate
+- **Pros**: Fast response to temperature changes, measures overall chamber climate
+- **Cons**: Doesn't directly measure product temperature
+- **Best for**: Beer fermentation, general purpose
+
+#### 2. External 1 (Direct Product Monitoring)
+- **Use case**: Single ferment where precise product temperature is critical
+- **Pros**: Measures actual fermentation temperature, not affected by air stratification
+- **Cons**: Slower response time, only monitors one location
+- **Best for**: Sourdough, koji, single batch ferments
+
+#### 3. External 2 (Direct Product Monitoring)
+- **Use case**: Alternative single ferment monitoring or backup sensor
+- **Pros**: Same as External 1
+- **Cons**: Same as External 1
+- **Best for**: Second fermentation vessel or redundancy
+
+#### 4. Average (Ext 1+2) - **NEW**
+- **Use case**: **Multiple simultaneous ferments** requiring balanced temperature control
+- **Pros**: Ensures both ferments stay within acceptable range, prevents one from overheating while the other is too cold
+- **Cons**: Averaging may allow individual temperatures to drift if products have different thermal masses
+- **Best for**: Dual batch beer fermentation, multiple koji trays, parallel sourdough batches
+- **How it works**:
+  - Calculates average of External 1 and External 2 temperatures
+  - If one sensor fails, automatically falls back to the working sensor
+  - If both fail, falls back to AHT20
+
+#### Choosing the Right Source
+
+**Single Ferment:**
+- Use External 1 or 2 inserted directly into the fermenting product
+- Most accurate control for that specific product
+
+**Dual Ferments:**
+- Use "Average (Ext 1+2)" with one probe in each ferment
+- Ensures both products ferment at acceptable temperatures
+- Controller maintains average, keeping both within range
+
+**No External Probes:**
+- Use AHT20 for chamber air control
+- Adequate for most general fermentation needs
+
+**Example Scenario - Dual Beer Fermentation:**
+```
+Batch A (External 1): 21.5°C
+Batch B (External 2): 22.5°C
+Control Temp (Average): 22.0°C
+Setpoint: 22°C
+
+Result: Controller maintains average at 22°C, both batches stay
+within ±0.5°C of target despite thermal mass differences.
+```
+
 ## Safety Features
 
 ### Temperature Safety Limits
@@ -155,6 +213,26 @@ Conservative defaults are set for safety. Adjust if needed:
 - **High-Temp max (78°C)**: Suitable for black garlic (60-70°C range)
 - **Hard limit (85°C)**: Emergency cutoff, should rarely be changed
 
+### Temperature Source Best Practices
+
+**Probe Placement:**
+- Insert external probes into the center of fermenting products
+- Avoid touching container walls (reads container temp, not product)
+- For liquids: suspend probe in middle of liquid
+- For solids (koji, sourdough): insert into thickest part
+
+**Using Average Mode:**
+- Ideal when running two ferments with similar temperature requirements
+- Place one probe in each fermentation vessel
+- Monitor individual temps via web interface to verify both are in range
+- If one ferment finishes early, switch to single External source for remaining batch
+
+**Sensor Failures:**
+- System automatically falls back to AHT20 if selected source fails
+- In Average mode, falls back to working external sensor if one fails
+- Monitor logs for sensor failure warnings
+- DS18B20 reading 85°C usually indicates sensor disconnection or failure
+
 ## Known Limitations
 
 ### Ultrasonic Humidifiers
@@ -193,7 +271,15 @@ Ideas for future development:
 
 ## Change Log
 
-### 2026-01-31
+### 2026-01-31 (v1.1)
+- **Added**: Average (Ext 1+2) temperature source option
+  - Enables balanced temperature control for dual ferments
+  - Automatically averages External 1 and External 2 sensor readings
+  - Falls back to single sensor if one fails
+- **Updated**: Comprehensive documentation for temperature source selection
+- **Updated**: Best practices for probe placement and sensor usage
+
+### 2026-01-31 (v1.0)
 - Initial release
 - Dual-mode operation (Normal/High-Temp)
 - 6-relay control system
