@@ -281,6 +281,70 @@ Mains Supply (with breaker/fuse)
 
 ---
 
+## Accessing the Controller
+
+### Web Interface (Standalone Mode)
+
+After flashing the ESP32 and connecting to WiFi, the controller is immediately accessible via built-in web interface:
+
+**Access URL:** `http://fermenter.local` (or use IP address)
+
+**First Access Steps:**
+1. Ensure your computer/phone is on the same WiFi network
+2. Open any web browser
+3. Navigate to `http://fermenter.local`
+4. If mDNS doesn't work, find IP address:
+   - Check your router's DHCP client list
+   - Look for device named "fermenter"
+   - Or check ESPHome logs during initial flash
+
+**Web Interface Features:**
+- Real-time sensor readings (temperature, humidity)
+- All relay controls (ON/OFF switches)
+- Temperature source selector dropdown
+- Mode selector (Normal/High-Temp)
+- Humidity automation settings
+- Climate control with temperature presets
+- Device logs for troubleshooting
+- OTA update capability
+
+**No Additional Software Required:**
+The web interface is fully functional without Home Assistant or any other software. All features are accessible and work independently.
+
+### Home Assistant Integration (Optional)
+
+If you use Home Assistant, the device will be automatically discovered:
+
+**Setup:**
+1. Open Home Assistant
+2. Go to: Settings → Devices & Services
+3. Look for "ESPHome" integration notification
+4. Click "Configure" on discovered "Fermenter" device
+5. All entities appear automatically - no YAML needed
+
+**What Gets Discovered:**
+- **Climate**: Thermostat with presets (Ferment, Sourdough, ColdCrash, BlackGarlic)
+- **Sensors**: All temperature readings, humidity, WiFi signal, uptime
+- **Switches**: All 6 relays + automation toggles (Humidity Auto, Fan Auto)
+- **Binary Sensors**: Door sensor, overtemp alarm, humidifier dry status
+- **Selectors**: Temperature source, operating mode
+- **Numbers**: All configurable parameters (humidity target, timings, etc.)
+
+**Benefits of Home Assistant:**
+- Historical data with graphs and trends
+- Automation (e.g., notifications when fermentation complete)
+- Custom dashboards
+- Remote access (via Nabu Casa or VPN)
+- Integration with other devices (tilt hydrometers, etc.)
+- Voice control ("Alexa, what's the fermentation temperature?")
+
+**Both Work Simultaneously:**
+- Web interface always available for quick access
+- Home Assistant provides advanced features
+- Use whichever is more convenient at the moment
+
+---
+
 ## Testing Procedure
 
 1. **Before Applying Power:**

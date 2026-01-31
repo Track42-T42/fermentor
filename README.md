@@ -68,10 +68,23 @@ The system controls 6 relays connected to:
 - Extends fan post-run to dissipate residual heat safely
 
 ### Integration
-- WiFi connectivity with fallback AP
-- Home Assistant API integration (port 6053)
-- Web server on port 80
-- OTA updates supported
+
+**Standalone Operation:**
+- Built-in web server on port 80 (`http://fermenter.local`)
+- Control all relays, view sensors, adjust settings via web interface
+- No additional software required - works independently
+
+**Home Assistant Integration (Optional):**
+- All sensors, switches, and controls automatically discovered
+- Native API integration on port 6053
+- Real-time updates and historical data logging
+- Automation and notifications support
+- Dashboard creation with fermentation metrics
+
+**Other Features:**
+- WiFi connectivity with fallback AP mode
+- OTA (Over-The-Air) updates - no USB required after initial flash
+- ESPHome native API for custom integrations
 
 ## Hardware Requirements
 
@@ -121,8 +134,18 @@ See [docs/wiring.md](docs/wiring.md) for complete wiring diagrams and pin assign
    ```
 
 6. **Initial setup:**
-   - Connect to the web interface at `http://fermenter.local`
-   - Or integrate with Home Assistant via the API
+
+   **Option A: Standalone Mode (Web Interface)**
+   - Open a web browser and navigate to `http://fermenter.local` (or use the IP address)
+   - Access all controls, sensors, and settings directly
+   - No additional software needed - fully functional out of the box
+
+   **Option B: Home Assistant Integration**
+   - ESPHome devices are automatically discovered in Home Assistant
+   - Go to Settings → Devices & Services → ESPHome
+   - Click "Configure" on the discovered "Fermenter" device
+   - All entities (sensors, switches, controls) will be available immediately
+   - Create dashboards, automations, and notifications as needed
 
 ## Configuration
 
@@ -142,6 +165,112 @@ Key parameters you may want to adjust in the YAML:
   - Sourdough: 26°C
   - ColdCrash: 4°C
   - BlackGarlic: 70°C
+
+## Usage Modes
+
+### Standalone Web Interface
+
+The controller includes a built-in web server that works independently without any additional software:
+
+**Access:** `http://fermenter.local` (or use IP address if mDNS doesn't work)
+
+**Available Controls:**
+- All relay switches (Light, Heater, Mist Maker, Fan, Compressor, Turbo)
+- Temperature source selector
+- Mode selector (Normal/High-Temp)
+- Humidity settings (target, hysteresis, max on time)
+- All automation toggles (Humidity Auto, Fan Auto, Dry Alerts)
+- Real-time sensor readings (temperature, humidity, door status)
+- Device information and logs
+
+**Best for:**
+- Simple setups without home automation
+- Quick access during fermentation checks
+- Troubleshooting and configuration
+- Direct control without additional infrastructure
+
+### Home Assistant Integration
+
+When integrated with Home Assistant, the controller becomes part of your smart home ecosystem:
+
+**Auto-Discovery:**
+- ESPHome integration automatically discovers the device
+- All sensors and controls appear as native entities
+- No manual configuration required
+
+**Available in Home Assistant:**
+- **Sensors**: All temperature readings, humidity, WiFi signal, uptime
+- **Switches**: All relays and automation toggles
+- **Climate**: Thermostat control with presets
+- **Selectors**: Temperature source, mode selection
+- **Binary Sensors**: Door sensor, overtemperature alarm, humidifier dry status
+- **Numbers**: All configurable parameters (humidity target, timings, etc.)
+
+**Additional Capabilities:**
+- **Historical Data**: Track temperature/humidity trends over weeks/months
+- **Automations**: Trigger actions based on fermentation stages
+  - Example: Notification when cold crash temperature reached
+  - Example: Auto-enable cooling when fermentation complete
+- **Dashboards**: Create custom fermentation monitoring displays
+- **Notifications**: Push alerts for overtemperature, humidifier dry, etc.
+- **Integrations**: Combine with other sensors (e.g., tilt hydrometers for beer)
+- **Voice Control**: "Alexa, what's the fermentation temperature?"
+
+**Example Home Assistant Automations:**
+```yaml
+# Alert when fermentation temperature drops (cold crash complete)
+automation:
+  - alias: "Cold Crash Complete"
+    trigger:
+      - platform: numeric_state
+        entity_id: sensor.fermenter_control_temp
+        below: 5
+        for: "01:00:00"
+    action:
+      - service: notify.mobile_app
+        data:
+          message: "Cold crash complete - beer ready for kegging!"
+
+# Enable humidifier when starting sourdough preset
+automation:
+  - alias: "Sourdough Mode Humidity"
+    trigger:
+      - platform: state
+        entity_id: climate.fermenter_temperature
+        attribute: preset_mode
+        to: "Sourdough"
+    action:
+      - service: switch.turn_on
+        entity_id: switch.fermenter_humidity_auto
+```
+
+**Best for:**
+- Advanced home automation users
+- Long-term data logging and analysis
+- Complex automation workflows
+- Remote monitoring away from home
+- Multi-device smart home setups
+
+### Which Mode Should You Use?
+
+**Use Standalone Mode if:**
+- You want simple, direct control
+- You don't have Home Assistant
+- You prefer accessing via web browser
+- You only need basic monitoring
+
+**Use Home Assistant if:**
+- You already have a Home Assistant installation
+- You want historical data and trends
+- You need notifications and automations
+- You want to integrate with other smart devices
+- You want remote access (via Home Assistant Cloud or VPN)
+
+**Use Both!**
+- Both modes work simultaneously
+- Web interface always available for quick checks
+- Home Assistant provides advanced features
+- No configuration needed - works out of the box
 
 ## Safety
 

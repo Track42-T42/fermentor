@@ -1,5 +1,85 @@
 # Project Notes - Fermentation Chamber Controller
 
+## Access and Control
+
+### Web Interface (Standalone Mode)
+
+The controller includes a built-in web server accessible at `http://fermenter.local`:
+
+**Features:**
+- Real-time sensor readings displayed on main page
+- All switches and controls available via web UI
+- Configuration changes take effect immediately
+- Logs accessible for troubleshooting
+- Works independently - no additional software required
+
+**Accessing the Web Interface:**
+1. Ensure your device is on the same WiFi network
+2. Open web browser to `http://fermenter.local`
+3. If mDNS doesn't work, use the IP address shown in router or ESPHome logs
+
+**Mobile Access:**
+- Responsive design works on phones and tablets
+- Bookmark for quick access during fermentation checks
+- No app installation required
+
+### Home Assistant Integration
+
+**Automatic Discovery:**
+- Device appears in Home Assistant within minutes of first boot
+- Navigate to: Settings → Devices & Services → ESPHome
+- Click "Configure" on discovered "Fermenter" device
+- All entities auto-populate - no YAML configuration needed
+
+**Available Entities:**
+```
+Climate:
+  - climate.fermenter_temperature (with presets)
+
+Sensors:
+  - sensor.fermenter_air_temp (AHT20)
+  - sensor.fermenter_external_1 (DS18B20)
+  - sensor.fermenter_external_2 (DS18B20)
+  - sensor.fermenter_control_temp (selected source)
+  - sensor.fermenter_humidity_aht20
+  - sensor.fermenter_wifi_rssi
+  - sensor.fermenter_uptime
+
+Switches:
+  - switch.fermenter_light
+  - switch.fermenter_heating_mat
+  - switch.fermenter_mist_maker
+  - switch.fermenter_fan
+  - switch.fermenter_compressor_cool
+  - switch.fermenter_turbo_heater
+  - switch.fermenter_humidity_auto
+  - switch.fermenter_fan_auto
+  - switch.fermenter_humidifier_dry_alerts
+
+Binary Sensors:
+  - binary_sensor.fermenter_door
+  - binary_sensor.fermenter_overtemp_trip
+  - binary_sensor.fermenter_humidifier_dry
+
+Selects:
+  - select.fermenter_temperature_source
+  - select.fermenter_mode
+
+Numbers:
+  - number.fermenter_target_humidity
+  - number.fermenter_rh_hysteresis
+  - number.fermenter_mist_max_on_min
+  - number.fermenter_fan_post_run_min
+  - number.fermenter_dry_check_min
+  - (and more...)
+```
+
+**Creating Dashboards:**
+Use the Lovelace UI editor to create custom fermentation monitoring displays with graphs, gauges, and controls.
+
+**Notifications Example:**
+Monitor critical events and get alerts on your phone when issues occur or milestones are reached.
+
 ## Operational Behavior
 
 ### Humidity Control and High-Temp Mode
@@ -270,6 +350,16 @@ Ideas for future development:
 - [ ] Advanced dry detection with automatic water level sensor
 
 ## Change Log
+
+### 2026-01-31 (v1.2)
+- **Documentation**: Comprehensive usage modes documentation
+  - Detailed standalone web interface guide
+  - Home Assistant integration walkthrough
+  - Complete entity list for Home Assistant
+  - Usage mode comparison and recommendations
+  - Example automations and dashboard examples
+- **Updated**: All documentation files with access/control information
+- **Updated**: Wiring guide with web interface access instructions
 
 ### 2026-01-31 (v1.1)
 - **Added**: Average (Ext 1+2) temperature source option
