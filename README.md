@@ -360,6 +360,7 @@ The dashboard includes:
 - [Wiring Guide](docs/wiring.md) - Complete wiring diagrams and pin assignments
 - [Project Notes](docs/notes.md) - Development notes and future improvements
 - [Home Assistant Dashboard](homeassistant_dashboard.yaml) - Pre-built dashboard configuration
+- [Home Assistant Troubleshooting](docs/homeassistant_troubleshooting.md) - Entity visibility and integration issues
 
 ## License
 
