@@ -1,0 +1,427 @@
+# Home Assistant Dashboard for Fermentation Chamber
+# Copy this configuration to your Home Assistant Lovelace dashboard
+# Dashboard → Edit → Raw Configuration Editor → Paste this content
+
+title: Fermentation Chamber
+views:
+  - title: Overview
+    path: overview
+    icon: mdi:fermentation
+    badges: []
+    cards:
+      # Current Status Card
+      - type: vertical-stack
+        cards:
+          - type: markdown
+            content: |
+              ## 🍺 Fermentation Chamber Status
+              Monitor and control your fermentation environment
+
+          # Temperature Control
+          - type: thermostat
+            entity: climate.fermenter_temperature
+            name: Temperature Control
+
+          # Quick Status Grid
+          - type: grid
+            square: false
+            columns: 3
+            cards:
+              - type: gauge
+                entity: sensor.fermenter_control_temp
+                name: Control Temp
+                min: 0
+                max: 80
+                severity:
+                  green: 0
+                  yellow: 30
+                  red: 60
+                needle: true
+
+              - type: gauge
+                entity: sensor.fermenter_air_temp
+                name: Air Temp
+                min: 0
+                max: 80
+                severity:
+                  green: 0
+                  yellow: 30
+                  red: 60
+                needle: true
+
+              - type: gauge
+                entity: sensor.fermenter_humidity_aht20
+                name: Humidity
+                min: 0
+                max: 100
+                unit: "%"
+                severity:
+                  green: 50
+                  yellow: 30
+                  red: 20
+                needle: true
+
+      # Temperature Sensors Detail
+      - type: entities
+        title: 🌡️ Temperature Sensors
+        show_header_toggle: false
+        state_color: true
+        entities:
+          - entity: sensor.fermenter_control_temp
+            name: Control Temperature
+            icon: mdi:thermometer-check
+          - entity: sensor.fermenter_air_temp
+            name: Air Temperature (AHT20)
+            icon: mdi:thermometer
+          - entity: sensor.fermenter_external_1
+            name: External Probe 1
+            icon: mdi:thermometer-probe
+          - entity: sensor.fermenter_external_2
+            name: External Probe 2
+            icon: mdi:thermometer-probe
+          - type: divider
+          - entity: select.fermenter_temperature_source
+            name: Temperature Source
+            icon: mdi:source-branch
+
+      # Mode and Safety
+      - type: entities
+        title: ⚙️ Mode & Safety
+        show_header_toggle: false
+        state_color: true
+        entities:
+          - entity: select.fermenter_mode
+            name: Operating Mode
+            icon: mdi:cog
+          - entity: binary_sensor.fermenter_overtemp_trip
+            name: Overtemperature Alarm
+            icon: mdi:alert-circle
+          - entity: binary_sensor.fermenter_door
+            name: Door Status
+            icon: mdi:door
+          - entity: binary_sensor.fermenter_humidifier_dry
+            name: Humidifier Dry Alert
+            icon: mdi:water-alert
+
+      # Equipment Controls
+      - type: entities
+        title: 🔌 Equipment Controls
+        show_header_toggle: false
+        state_color: true
+        entities:
+          - entity: switch.fermenter_heating_mat
+            name: Heating Mat
+            icon: mdi:radiator
+          - entity: switch.fermenter_turbo_heater
+            name: Turbo Heater
+            icon: mdi:fire
+          - entity: switch.fermenter_compressor_cool
+            name: Compressor (Cooling)
+            icon: mdi:snowflake
+          - entity: switch.fermenter_fan
+            name: Circulation Fan
+            icon: mdi:fan
+          - entity: switch.fermenter_mist_maker
+            name: Mist Maker
+            icon: mdi:water
+          - entity: switch.fermenter_light
+            name: Interior Light
+            icon: mdi:lightbulb
+
+      # Automation Controls
+      - type: entities
+        title: 🤖 Automation
+        show_header_toggle: false
+        state_color: true
+        entities:
+          - entity: switch.fermenter_humidity_auto
+            name: Humidity Auto Control
+            icon: mdi:water-percent
+          - entity: switch.fermenter_fan_auto
+            name: Fan Auto Control
+            icon: mdi:fan-auto
+          - entity: switch.fermenter_humidifier_dry_alerts
+            name: Dry Detection Alerts
+            icon: mdi:bell-alert
+
+      # Humidity Settings
+      - type: entities
+        title: 💧 Humidity Settings
+        show_header_toggle: false
+        entities:
+          - entity: sensor.fermenter_humidity_aht20
+            name: Current Humidity
+            icon: mdi:water-percent
+          - entity: number.fermenter_target_humidity
+            name: Target Humidity
+            icon: mdi:bullseye-arrow
+          - entity: number.fermenter_rh_hysteresis
+            name: Hysteresis
+            icon: mdi:delta
+          - entity: number.fermenter_mist_max_on_min
+            name: Max Mist Duration (min)
+            icon: mdi:timer
+
+  - title: Graphs
+    path: graphs
+    icon: mdi:chart-line
+    badges: []
+    cards:
+      # Temperature History
+      - type: history-graph
+        title: Temperature History (24h)
+        hours_to_show: 24
+        refresh_interval: 30
+        entities:
+          - entity: sensor.fermenter_control_temp
+            name: Control
+          - entity: sensor.fermenter_air_temp
+            name: Air
+          - entity: sensor.fermenter_external_1
+            name: Probe 1
+          - entity: sensor.fermenter_external_2
+            name: Probe 2
+
+      # Humidity History
+      - type: history-graph
+        title: Humidity History (24h)
+        hours_to_show: 24
+        refresh_interval: 30
+        entities:
+          - entity: sensor.fermenter_humidity_aht20
+            name: Humidity
+
+      # Temperature Statistics
+      - type: statistics-graph
+        title: Temperature Statistics (7 days)
+        entities:
+          - sensor.fermenter_control_temp
+          - sensor.fermenter_air_temp
+          - sensor.fermenter_external_1
+          - sensor.fermenter_external_2
+        stat_types:
+          - mean
+          - min
+          - max
+        period:
+          calendar:
+            period: week
+
+      # Equipment Activity
+      - type: history-graph
+        title: Equipment Activity (24h)
+        hours_to_show: 24
+        refresh_interval: 60
+        entities:
+          - entity: switch.fermenter_heating_mat
+            name: Heater
+          - entity: switch.fermenter_compressor_cool
+            name: Cooler
+          - entity: switch.fermenter_fan
+            name: Fan
+          - entity: switch.fermenter_mist_maker
+            name: Mist
+
+  - title: Advanced
+    path: advanced
+    icon: mdi:cog-outline
+    badges: []
+    cards:
+      # Advanced Temperature Settings
+      - type: entities
+        title: 🎚️ Advanced Temperature
+        show_header_toggle: false
+        entities:
+          - entity: climate.fermenter_temperature
+            name: Climate Control
+          - type: divider
+          - type: attribute
+            entity: climate.fermenter_temperature
+            attribute: current_temperature
+            name: Current Temperature
+          - type: attribute
+            entity: climate.fermenter_temperature
+            attribute: temperature
+            name: Target Temperature
+          - type: attribute
+            entity: climate.fermenter_temperature
+            attribute: preset_mode
+            name: Active Preset
+
+      # Fan Settings
+      - type: entities
+        title: 🌀 Fan Configuration
+        show_header_toggle: false
+        entities:
+          - entity: switch.fermenter_fan_auto
+            name: Fan Auto Mode
+          - entity: number.fermenter_fan_post_run_min
+            name: Fan Post-Run Duration (min)
+            icon: mdi:timer-sand
+
+      # Humidity Advanced
+      - type: entities
+        title: 💦 Humidity Advanced
+        show_header_toggle: false
+        entities:
+          - entity: switch.fermenter_humidity_auto
+            name: Humidity Auto Mode
+          - entity: number.fermenter_target_humidity
+            name: Target Humidity (%)
+          - entity: number.fermenter_rh_hysteresis
+            name: Hysteresis (%)
+          - entity: number.fermenter_mist_max_on_min
+            name: Max Mist Duration (min)
+          - entity: number.fermenter_dry_check_min
+            name: Dry Check Interval (min)
+          - entity: number.fermenter_dry_expected_rise
+            name: Expected Humidity Rise (%)
+          - entity: number.fermenter_dry_failures_needed
+            name: Failures Before Alert
+
+      # System Information
+      - type: entities
+        title: 📊 System Information
+        show_header_toggle: false
+        entities:
+          - entity: sensor.fermenter_uptime
+            name: Uptime
+            icon: mdi:clock-outline
+          - entity: sensor.fermenter_wifi_rssi
+            name: WiFi Signal
+            icon: mdi:wifi
+          - entity: sensor.fermenter_esphome_version
+            name: ESPHome Version
+            icon: mdi:chip
+
+      # Quick Actions
+      - type: entities
+        title: ⚡ Quick Actions
+        show_header_toggle: false
+        entities:
+          - entity: button.fermenter_restart
+            name: Restart Controller
+            icon: mdi:restart
+            tap_action:
+              action: call-service
+              service: button.press
+              service_data:
+                entity_id: button.fermenter_restart
+              confirmation:
+                text: Are you sure you want to restart the fermenter controller?
+
+  - title: Presets
+    path: presets
+    icon: mdi:palette
+    badges: []
+    cards:
+      # Preset Quick Access
+      - type: markdown
+        content: |
+          ## 🎯 Temperature Presets
+          Quick access to common fermentation profiles
+
+      # Preset Buttons
+      - type: grid
+        columns: 2
+        square: false
+        cards:
+          - type: button
+            name: Ferment
+            icon: mdi:beer
+            icon_height: 60px
+            tap_action:
+              action: call-service
+              service: climate.set_preset_mode
+              service_data:
+                entity_id: climate.fermenter_temperature
+                preset_mode: Ferment
+            hold_action:
+              action: more-info
+
+          - type: button
+            name: Sourdough
+            icon: mdi:bread-slice
+            icon_height: 60px
+            tap_action:
+              action: call-service
+              service: climate.set_preset_mode
+              service_data:
+                entity_id: climate.fermenter_temperature
+                preset_mode: Sourdough
+            hold_action:
+              action: more-info
+
+          - type: button
+            name: Cold Crash
+            icon: mdi:snowflake-variant
+            icon_height: 60px
+            tap_action:
+              action: call-service
+              service: climate.set_preset_mode
+              service_data:
+                entity_id: climate.fermenter_temperature
+                preset_mode: ColdCrash
+            hold_action:
+              action: more-info
+
+          - type: button
+            name: Black Garlic
+            icon: mdi:garlic
+            icon_height: 60px
+            tap_action:
+              action: call-service
+              service: climate.set_preset_mode
+              service_data:
+                entity_id: climate.fermenter_temperature
+                preset_mode: BlackGarlic
+            hold_action:
+              action: more-info
+
+      # Preset Details
+      - type: markdown
+        content: |
+          ### Preset Temperature Targets
+
+          - **Ferment** (22°C): Standard ale fermentation
+          - **Sourdough** (26°C): Optimal sourdough starter activity
+          - **ColdCrash** (4°C): Beer clarification
+          - **BlackGarlic** (70°C): High-temp fermentation
+
+          *Tap preset button to activate. Hold for more information.*
+
+      # Current Settings
+      - type: entities
+        title: Current Configuration
+        show_header_toggle: false
+        entities:
+          - entity: climate.fermenter_temperature
+            name: Active Control
+          - entity: select.fermenter_temperature_source
+            name: Temperature Source
+          - entity: select.fermenter_mode
+            name: Operating Mode
+          - entity: sensor.fermenter_control_temp
+            name: Current Temperature
+
+      # Mode Recommendations
+      - type: markdown
+        content: |
+          ### 📋 Mode Recommendations
+
+          **Normal Mode:**
+          - Ferment preset (22°C)
+          - Sourdough preset (26°C)
+          - ColdCrash preset (4°C)
+          - Most fermentation processes
+
+          **High-Temp Mode:**
+          - BlackGarlic preset (70°C)
+          - Miso fermentation
+          - Tempeh production
+          - ⚠️ Humidity control disabled in High-Temp mode
+
+          **Temperature Sources:**
+          - **AHT20**: Chamber air temperature (fast response)
+          - **External 1/2**: Direct product monitoring (accurate)
+          - **Average**: Dual ferment balancing (both products)

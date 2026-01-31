@@ -344,7 +344,7 @@ binary_sensor:
     device_class: safety
     lambda: |-
       const float t = id(t_ctrl).state;
-      if (!isfinite(t)) return false;
+      if (!std::isfinite(t)) return false;
       const bool high_mode = (id(mode_select).state == "High-Temp");
       const float soft_normal = ${safety_max_c_normal};
       const float soft_high   = ${safety_max_c_high};
@@ -380,7 +380,7 @@ binary_sensor:
         # High-temp door safety: kill turbo if door opens hot
         - lambda: |-
             const float t = id(t_ctrl).state;
-            if ((id(mode_select).state == "High-Temp") && isfinite(t) && t > 40.0f) {
+            if ((id(mode_select).state == "High-Temp") && std::isfinite(t) && t > 40.0f) {
               ESP_LOGW("safety", "Door opened in High-Temp at %.1f°C -> TURBO OFF", t);
               id(relay_turbo).turn_off();
             }
@@ -462,11 +462,11 @@ sensor:
         // Average of both external sensors
         float t1 = id(t_ext1).state;
         float t2 = id(t_ext2).state;
-        if (isfinite(t1) && isfinite(t2)) {
+        if (std::isfinite(t1) && std::isfinite(t2)) {
           v = (t1 + t2) / 2.0f;
-        } else if (isfinite(t1)) {
+        } else if (std::isfinite(t1)) {
           v = t1;  // fallback to ext1 if ext2 fails
-        } else if (isfinite(t2)) {
+        } else if (std::isfinite(t2)) {
           v = t2;  // fallback to ext2 if ext1 fails
         }
       }
@@ -608,7 +608,7 @@ interval:
     then:
       - lambda: |-
           float t = id(t_ctrl).state;
-          if (!isfinite(t)) {
+          if (!std::isfinite(t)) {
             ESP_LOGW("safety", "t_ctrl invalid -> forcing HEAT OFF, TURBO OFF, COOL OFF");
             id(relay_heat).turn_off();
             id(relay_turbo).turn_off();
@@ -617,7 +617,7 @@ interval:
           }
       - if:
           condition:
-            lambda: 'return !isfinite(id(t_ctrl).state);'
+            lambda: 'return !std::isfinite(id(t_ctrl).state);'
           then:
             - climate.control:
                 id: temp_ctrl
@@ -646,7 +646,7 @@ interval:
                   const float clear_normal = ${safety_clear_c_normal};
                   const float clear_high   = ${safety_clear_c_high};
                   const float t = id(t_ctrl).state;
-                  if (!isfinite(t)) return false;
+                  if (!std::isfinite(t)) return false;
                   const float th = high_mode ? clear_high : clear_normal;
                   return (t < th);
           then:
@@ -709,7 +709,7 @@ interval:
           // --- Enforce cooling lockout & temp limit on the compressor ---
           if (id(relay_cool).state) {
             const float t = id(t_ctrl).state;
-            if (high_mode || !isfinite(t) || t > 35.0f || id(cool_lockout_secs) > 0) {
+            if (high_mode || !std::isfinite(t) || t > 35.0f || id(cool_lockout_secs) > 0) {
               ESP_LOGW("cool", "Forcing COOL OFF due to mode/lockout/temp");
               id(relay_cool).turn_off();
             }

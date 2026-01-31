@@ -298,10 +298,68 @@ automation:
 - Humidifier dry detection
 - Configurable safety limits per mode
 
+## Home Assistant Dashboard
+
+A pre-built, beautiful dashboard configuration is included for Home Assistant users:
+
+**File:** [homeassistant_dashboard.yaml](homeassistant_dashboard.yaml)
+
+### Dashboard Features
+
+**4 Comprehensive Views:**
+
+1. **Overview** - Main control panel
+   - Real-time temperature gauges
+   - Climate control thermostat
+   - All equipment switches
+   - Safety status indicators
+   - Mode and automation controls
+
+2. **Graphs** - Historical data visualization
+   - 24-hour temperature history
+   - 7-day temperature statistics
+   - Humidity trends
+   - Equipment activity timeline
+
+3. **Advanced** - Detailed configuration
+   - All tunable parameters
+   - Fan and humidity settings
+   - System information
+   - Quick restart button
+
+4. **Presets** - One-tap fermentation profiles
+   - Large preset buttons (Ferment, Sourdough, ColdCrash, BlackGarlic)
+   - Preset recommendations
+   - Temperature source selector
+   - Mode switching guide
+
+### Installation
+
+1. Open Home Assistant
+2. Go to Settings → Dashboards
+3. Click "+ Add Dashboard"
+4. Choose "New dashboard from scratch"
+5. Click "⋮" (three dots) → "Edit Dashboard"
+6. Click "⋮" again → "Raw configuration editor"
+7. Copy contents of `homeassistant_dashboard.yaml`
+8. Paste and save
+
+### Screenshots
+
+The dashboard includes:
+- 🌡️ Real-time temperature gauges with color-coded zones
+- 📊 Historical graphs for trend analysis
+- 🎯 One-tap preset activation buttons
+- 🔌 Individual equipment controls
+- 🤖 Automation toggle switches
+- ⚠️ Safety status indicators
+- 💧 Humidity management controls
+
 ## Documentation
 
 - [Wiring Guide](docs/wiring.md) - Complete wiring diagrams and pin assignments
 - [Project Notes](docs/notes.md) - Development notes and future improvements
+- [Home Assistant Dashboard](homeassistant_dashboard.yaml) - Pre-built dashboard configuration
 
 ## License
 

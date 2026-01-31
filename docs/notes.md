@@ -74,8 +74,20 @@ Numbers:
   - (and more...)
 ```
 
-**Creating Dashboards:**
-Use the Lovelace UI editor to create custom fermentation monitoring displays with graphs, gauges, and controls.
+**Pre-built Dashboard:**
+A complete, ready-to-use dashboard configuration is available in `homeassistant_dashboard.yaml`. Features include:
+- Real-time temperature gauges with color zones
+- Climate control thermostat card
+- All equipment switches
+- 24-hour historical graphs
+- One-tap preset buttons
+- Advanced settings panel
+- Safety status indicators
+
+To install: Settings → Dashboards → Add Dashboard → Raw Configuration Editor → Paste contents
+
+**Custom Dashboards:**
+Use the Lovelace UI editor to create your own custom fermentation monitoring displays with graphs, gauges, and controls.
 
 **Notifications Example:**
 Monitor critical events and get alerts on your phone when issues occur or milestones are reached.
@@ -350,6 +362,20 @@ Ideas for future development:
 - [ ] Advanced dry detection with automatic water level sensor
 
 ## Change Log
+
+### 2026-01-31 (v1.3)
+- **Added**: Pre-built Home Assistant dashboard configuration
+  - 4 comprehensive views (Overview, Graphs, Advanced, Presets)
+  - Beautiful temperature gauges with color-coded zones
+  - 24-hour and 7-day historical graphs
+  - One-tap preset activation buttons
+  - Complete equipment control panel
+  - Safety status indicators
+  - All automation toggles
+  - Advanced parameter tuning
+  - System information display
+- **Fixed**: ESP-IDF compilation compatibility (std::isfinite)
+- **Tested**: Successfully deployed to ESP32 device via OTA
 
 ### 2026-01-31 (v1.2)
 - **Documentation**: Comprehensive usage modes documentation
