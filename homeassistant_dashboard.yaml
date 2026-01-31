@@ -280,53 +280,57 @@ views:
             name: Failures Before Alert
 
       # Power & Energy Monitoring
-      - type: entities
-        title: ⚡ Power & Energy
-        show_header_toggle: false
-        entities:
-          - entity: sensor.fermenter_power
-            name: Current Power Usage
-            icon: mdi:lightning-bolt
-
-      - type: statistics-graph
-        title: Energy Consumption
-        entities:
-          - sensor.fermenter_energy_2
-        stat_types:
-          - sum
-        chart_type: bar
-        period:
-          calendar:
-            period: day
-
-      - type: horizontal-stack
+      - type: vertical-stack
         cards:
-          - type: statistic
-            entity: sensor.fermenter_energy_2
-            name: Last 24h
-            stat_type: change
+          - type: entities
+            title: ⚡ Power & Energy Monitoring
+            show_header_toggle: false
+            entities:
+              - entity: sensor.fermenter_power
+                name: Current Power Usage
+                icon: mdi:lightning-bolt
+
+          - type: statistics-graph
+            title: Energy Consumption (Daily)
+            entities:
+              - sensor.fermenter_energy_2
+            stat_types:
+              - sum
+            chart_type: bar
             period:
               calendar:
                 period: day
-            icon: mdi:calendar-today
 
-          - type: statistic
-            entity: sensor.fermenter_energy_2
-            name: Last 7 days
-            stat_type: change
-            period:
-              calendar:
-                period: week
-            icon: mdi:calendar-week
+          - type: grid
+            columns: 3
+            square: false
+            cards:
+              - type: statistic
+                entity: sensor.fermenter_energy_2
+                name: Last 24h
+                stat_type: change
+                period:
+                  calendar:
+                    period: day
+                icon: mdi:calendar-today
 
-          - type: statistic
-            entity: sensor.fermenter_energy_2
-            name: Last Month
-            stat_type: change
-            period:
-              calendar:
-                period: month
-            icon: mdi:calendar-month
+              - type: statistic
+                entity: sensor.fermenter_energy_2
+                name: Last 7 days
+                stat_type: change
+                period:
+                  calendar:
+                    period: week
+                icon: mdi:calendar-week
+
+              - type: statistic
+                entity: sensor.fermenter_energy_2
+                name: Last Month
+                stat_type: change
+                period:
+                  calendar:
+                    period: month
+                icon: mdi:calendar-month
 
       # System Information
       - type: entities
