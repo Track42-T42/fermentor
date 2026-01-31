@@ -19,7 +19,7 @@ views:
 
           # Temperature Control
           - type: thermostat
-            entity: climate.fermenter_temperature
+            entity: climate.fermenter_fermenter_temperature
             name: Temperature Control
 
           # Quick Status Grid
@@ -28,7 +28,7 @@ views:
             columns: 3
             cards:
               - type: gauge
-                entity: sensor.fermenter_control_temp
+                entity: sensor.fermenter_fermenter_control_temp
                 name: Control Temp
                 min: 0
                 max: 80
@@ -39,7 +39,7 @@ views:
                 needle: true
 
               - type: gauge
-                entity: sensor.fermenter_air_temp
+                entity: sensor.fermenter_fermenter_air_temp
                 name: Air Temp
                 min: 0
                 max: 80
@@ -50,7 +50,7 @@ views:
                 needle: true
 
               - type: gauge
-                entity: sensor.fermenter_humidity_aht20
+                entity: sensor.fermenter_fermenter_humidity_aht20
                 name: Humidity
                 min: 0
                 max: 100
@@ -67,20 +67,20 @@ views:
         show_header_toggle: false
         state_color: true
         entities:
-          - entity: sensor.fermenter_control_temp
+          - entity: sensor.fermenter_fermenter_control_temp
             name: Control Temperature
             icon: mdi:thermometer-check
-          - entity: sensor.fermenter_air_temp
+          - entity: sensor.fermenter_fermenter_air_temp
             name: Air Temperature (AHT20)
             icon: mdi:thermometer
-          - entity: sensor.fermenter_external_1
+          - entity: sensor.fermenter_fermenter_external_1
             name: External Probe 1
             icon: mdi:thermometer-probe
-          - entity: sensor.fermenter_external_2
+          - entity: sensor.fermenter_fermenter_external_2
             name: External Probe 2
             icon: mdi:thermometer-probe
           - type: divider
-          - entity: select.fermenter_temperature_source
+          - entity: select.fermenter_fermenter_temperature_source
             name: Temperature Source
             icon: mdi:source-branch
 
@@ -90,16 +90,16 @@ views:
         show_header_toggle: false
         state_color: true
         entities:
-          - entity: select.fermenter_mode
+          - entity: select.fermenter_fermenter_mode
             name: Operating Mode
             icon: mdi:cog
-          - entity: binary_sensor.fermenter_overtemp_trip
+          - entity: binary_sensor.fermenter_fermenter_overtemp_trip
             name: Overtemperature Alarm
             icon: mdi:alert-circle
-          - entity: binary_sensor.fermenter_door
+          - entity: binary_sensor.fermenter_fermenter_door
             name: Door Status
             icon: mdi:door
-          - entity: binary_sensor.fermenter_humidifier_dry
+          - entity: binary_sensor.fermenter_fermenter_humidifier_dry
             name: Humidifier Dry Alert
             icon: mdi:water-alert
 
@@ -109,22 +109,22 @@ views:
         show_header_toggle: false
         state_color: true
         entities:
-          - entity: switch.fermenter_heating_mat
+          - entity: switch.fermenter_fermenter_heating_mat
             name: Heating Mat
             icon: mdi:radiator
-          - entity: switch.fermenter_turbo_heater
+          - entity: switch.fermenter_fermenter_turbo_heater
             name: Turbo Heater
             icon: mdi:fire
-          - entity: switch.fermenter_compressor_cool
+          - entity: switch.fermenter_fermenter_compressor_cool
             name: Compressor (Cooling)
             icon: mdi:snowflake
-          - entity: switch.fermenter_fan
+          - entity: switch.fermenter_fermenter_fan
             name: Circulation Fan
             icon: mdi:fan
-          - entity: switch.fermenter_mist_maker
+          - entity: switch.fermenter_fermenter_mist_maker
             name: Mist Maker
             icon: mdi:water
-          - entity: switch.fermenter_light
+          - entity: switch.fermenter_fermenter_light
             name: Interior Light
             icon: mdi:lightbulb
 
@@ -134,13 +134,13 @@ views:
         show_header_toggle: false
         state_color: true
         entities:
-          - entity: switch.fermenter_humidity_auto
+          - entity: switch.fermenter_fermenter_humidity_auto
             name: Humidity Auto Control
             icon: mdi:water-percent
-          - entity: switch.fermenter_fan_auto
+          - entity: switch.fermenter_fermenter_fan_auto
             name: Fan Auto Control
             icon: mdi:fan-auto
-          - entity: switch.fermenter_humidifier_dry_alerts
+          - entity: switch.fermenter_fermenter_humidifier_dry_alerts
             name: Dry Detection Alerts
             icon: mdi:bell-alert
 
@@ -149,16 +149,16 @@ views:
         title: 💧 Humidity Settings
         show_header_toggle: false
         entities:
-          - entity: sensor.fermenter_humidity_aht20
+          - entity: sensor.fermenter_fermenter_humidity_aht20
             name: Current Humidity
             icon: mdi:water-percent
-          - entity: number.fermenter_target_humidity
+          - entity: number.fermenter_fermenter_target_humidity
             name: Target Humidity
             icon: mdi:bullseye-arrow
-          - entity: number.fermenter_rh_hysteresis
+          - entity: number.fermenter_fermenter_rh_hysteresis
             name: Hysteresis
             icon: mdi:delta
-          - entity: number.fermenter_mist_max_on_min
+          - entity: number.fermenter_fermenter_mist_max_on_min
             name: Max Mist Duration (min)
             icon: mdi:timer
 
@@ -173,13 +173,13 @@ views:
         hours_to_show: 24
         refresh_interval: 30
         entities:
-          - entity: sensor.fermenter_control_temp
+          - entity: sensor.fermenter_fermenter_control_temp
             name: Control
-          - entity: sensor.fermenter_air_temp
+          - entity: sensor.fermenter_fermenter_air_temp
             name: Air
-          - entity: sensor.fermenter_external_1
+          - entity: sensor.fermenter_fermenter_external_1
             name: Probe 1
-          - entity: sensor.fermenter_external_2
+          - entity: sensor.fermenter_fermenter_external_2
             name: Probe 2
 
       # Humidity History
@@ -188,17 +188,17 @@ views:
         hours_to_show: 24
         refresh_interval: 30
         entities:
-          - entity: sensor.fermenter_humidity_aht20
+          - entity: sensor.fermenter_fermenter_humidity_aht20
             name: Humidity
 
       # Temperature Statistics
       - type: statistics-graph
         title: Temperature Statistics (7 days)
         entities:
-          - sensor.fermenter_control_temp
-          - sensor.fermenter_air_temp
-          - sensor.fermenter_external_1
-          - sensor.fermenter_external_2
+          - sensor.fermenter_fermenter_control_temp
+          - sensor.fermenter_fermenter_air_temp
+          - sensor.fermenter_fermenter_external_1
+          - sensor.fermenter_fermenter_external_2
         stat_types:
           - mean
           - min
@@ -213,13 +213,13 @@ views:
         hours_to_show: 24
         refresh_interval: 60
         entities:
-          - entity: switch.fermenter_heating_mat
+          - entity: switch.fermenter_fermenter_heating_mat
             name: Heater
-          - entity: switch.fermenter_compressor_cool
+          - entity: switch.fermenter_fermenter_compressor_cool
             name: Cooler
-          - entity: switch.fermenter_fan
+          - entity: switch.fermenter_fermenter_fan
             name: Fan
-          - entity: switch.fermenter_mist_maker
+          - entity: switch.fermenter_fermenter_mist_maker
             name: Mist
 
   - title: Advanced
@@ -232,19 +232,19 @@ views:
         title: 🎚️ Advanced Temperature
         show_header_toggle: false
         entities:
-          - entity: climate.fermenter_temperature
+          - entity: climate.fermenter_fermenter_temperature
             name: Climate Control
           - type: divider
           - type: attribute
-            entity: climate.fermenter_temperature
+            entity: climate.fermenter_fermenter_temperature
             attribute: current_temperature
             name: Current Temperature
           - type: attribute
-            entity: climate.fermenter_temperature
+            entity: climate.fermenter_fermenter_temperature
             attribute: temperature
             name: Target Temperature
           - type: attribute
-            entity: climate.fermenter_temperature
+            entity: climate.fermenter_fermenter_temperature
             attribute: preset_mode
             name: Active Preset
 
@@ -253,9 +253,9 @@ views:
         title: 🌀 Fan Configuration
         show_header_toggle: false
         entities:
-          - entity: switch.fermenter_fan_auto
+          - entity: switch.fermenter_fermenter_fan_auto
             name: Fan Auto Mode
-          - entity: number.fermenter_fan_post_run_min
+          - entity: number.fermenter_fermenter_fan_post_run_min
             name: Fan Post-Run Duration (min)
             icon: mdi:timer-sand
 
@@ -264,19 +264,19 @@ views:
         title: 💦 Humidity Advanced
         show_header_toggle: false
         entities:
-          - entity: switch.fermenter_humidity_auto
+          - entity: switch.fermenter_fermenter_humidity_auto
             name: Humidity Auto Mode
-          - entity: number.fermenter_target_humidity
+          - entity: number.fermenter_fermenter_target_humidity
             name: Target Humidity (%)
-          - entity: number.fermenter_rh_hysteresis
+          - entity: number.fermenter_fermenter_rh_hysteresis
             name: Hysteresis (%)
-          - entity: number.fermenter_mist_max_on_min
+          - entity: number.fermenter_fermenter_mist_max_on_min
             name: Max Mist Duration (min)
-          - entity: number.fermenter_dry_check_min
+          - entity: number.fermenter_fermenter_dry_check_min
             name: Dry Check Interval (min)
-          - entity: number.fermenter_dry_expected_rise
+          - entity: number.fermenter_fermenter_dry_expected_rise
             name: Expected Humidity Rise (%)
-          - entity: number.fermenter_dry_failures_needed
+          - entity: number.fermenter_fermenter_dry_failures_needed
             name: Failures Before Alert
 
       # System Information
@@ -284,13 +284,13 @@ views:
         title: 📊 System Information
         show_header_toggle: false
         entities:
-          - entity: sensor.fermenter_uptime
+          - entity: sensor.fermenter_fermenter_uptime
             name: Uptime
             icon: mdi:clock-outline
-          - entity: sensor.fermenter_wifi_rssi
+          - entity: sensor.fermenter_fermenter_wifi_rssi
             name: WiFi Signal
             icon: mdi:wifi
-          - entity: sensor.fermenter_esphome_version
+          - entity: sensor.fermenter_fermenter_esphome_version
             name: ESPHome Version
             icon: mdi:chip
 
@@ -299,14 +299,14 @@ views:
         title: ⚡ Quick Actions
         show_header_toggle: false
         entities:
-          - entity: button.fermenter_restart
+          - entity: button.fermenter_fermenter_restart
             name: Restart Controller
             icon: mdi:restart
             tap_action:
               action: call-service
               service: button.press
               service_data:
-                entity_id: button.fermenter_restart
+                entity_id: button.fermenter_fermenter_restart
               confirmation:
                 text: Are you sure you want to restart the fermenter controller?
 
@@ -334,7 +334,7 @@ views:
               action: call-service
               service: climate.set_preset_mode
               service_data:
-                entity_id: climate.fermenter_temperature
+                entity_id: climate.fermenter_fermenter_temperature
                 preset_mode: Ferment
             hold_action:
               action: more-info
@@ -347,7 +347,7 @@ views:
               action: call-service
               service: climate.set_preset_mode
               service_data:
-                entity_id: climate.fermenter_temperature
+                entity_id: climate.fermenter_fermenter_temperature
                 preset_mode: Sourdough
             hold_action:
               action: more-info
@@ -360,7 +360,7 @@ views:
               action: call-service
               service: climate.set_preset_mode
               service_data:
-                entity_id: climate.fermenter_temperature
+                entity_id: climate.fermenter_fermenter_temperature
                 preset_mode: ColdCrash
             hold_action:
               action: more-info
@@ -373,7 +373,7 @@ views:
               action: call-service
               service: climate.set_preset_mode
               service_data:
-                entity_id: climate.fermenter_temperature
+                entity_id: climate.fermenter_fermenter_temperature
                 preset_mode: BlackGarlic
             hold_action:
               action: more-info
@@ -395,13 +395,13 @@ views:
         title: Current Configuration
         show_header_toggle: false
         entities:
-          - entity: climate.fermenter_temperature
+          - entity: climate.fermenter_fermenter_temperature
             name: Active Control
-          - entity: select.fermenter_temperature_source
+          - entity: select.fermenter_fermenter_temperature_source
             name: Temperature Source
-          - entity: select.fermenter_mode
+          - entity: select.fermenter_fermenter_mode
             name: Operating Mode
-          - entity: sensor.fermenter_control_temp
+          - entity: sensor.fermenter_fermenter_control_temp
             name: Current Temperature
 
       # Mode Recommendations
