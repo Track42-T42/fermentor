@@ -279,6 +279,55 @@ views:
           - entity: number.fermenter_fermenter_dry_failures_needed
             name: Failures Before Alert
 
+      # Power & Energy Monitoring
+      - type: entities
+        title: ⚡ Power & Energy
+        show_header_toggle: false
+        entities:
+          - entity: sensor.fermenter_power
+            name: Current Power Usage
+            icon: mdi:lightning-bolt
+
+      - type: statistics-graph
+        title: Energy Consumption
+        entities:
+          - sensor.fermenter_energy_2
+        stat_types:
+          - sum
+        chart_type: bar
+        period:
+          calendar:
+            period: day
+
+      - type: horizontal-stack
+        cards:
+          - type: statistic
+            entity: sensor.fermenter_energy_2
+            name: Last 24h
+            stat_type: change
+            period:
+              calendar:
+                period: day
+            icon: mdi:calendar-today
+
+          - type: statistic
+            entity: sensor.fermenter_energy_2
+            name: Last 7 days
+            stat_type: change
+            period:
+              calendar:
+                period: week
+            icon: mdi:calendar-week
+
+          - type: statistic
+            entity: sensor.fermenter_energy_2
+            name: Last Month
+            stat_type: change
+            period:
+              calendar:
+                period: month
+            icon: mdi:calendar-month
+
       # System Information
       - type: entities
         title: 📊 System Information
