@@ -1,35 +1,13 @@
 # ESPHome
-esphome/secrets.yaml
-esphome/.esphome/
+*.bin
+*.yaml.save
 .esphome/
 
-# ESPHome build artifacts
-**/.pioenvs/
-**/.piolibdeps/
-**/lib/
-**/src/
-**/platformio.ini
-
-# Python
-__pycache__/
-*.py[cod]
-*$py.class
-*.so
-.Python
-venv/
-env/
-ENV/
-
-# IDE
+# VS Code and similar
 .vscode/
 .idea/
-*.swp
-*.swo
-*~
+*.code-workspace
 
-# OS
-.DS_Store
-Thumbs.db
-
-# Logs
-*.log
+# Python virtual env if you ever add scripts
+venv/
+.env

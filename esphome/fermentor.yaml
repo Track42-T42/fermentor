@@ -652,15 +652,20 @@ interval:
           then:
             - logger.log: "Safety: Overtemp cleared"
 
-  # Humidity loop (disabled in High-Temp mode)
+  # Humidity loop (disabled when temp >= 45°C to protect ultrasonic mist maker)
   - interval: 5s
     then:
       - lambda: |-
           if (!id(humidify_auto).state) return;
           if (id(mist_lockout_secs) > 0) return;
-          const bool high_mode = (id(mode_select).state == "High-Temp");
-          if (high_mode) {
-            // No ultrasonic humidifier in High-Temp mode
+
+          // Disable humidifier if temp >= 45°C (ultrasonic mist makers can't handle high temps)
+          const float t = id(t_ctrl).state;
+          if (std::isfinite(t) && t >= 45.0f) {
+            if (id(relay_mist).state) {
+              ESP_LOGW("humidity", "Temp %.1f°C >= 45°C -> forcing MIST OFF", t);
+              id(relay_mist).turn_off();
+            }
             return;
           }
 

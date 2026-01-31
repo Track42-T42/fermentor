@@ -94,15 +94,16 @@ Monitor critical events and get alerts on your phone when issues occur or milest
 
 ## Operational Behavior
 
-### Humidity Control and High-Temp Mode
+### Humidity Control and Temperature Limit
 
-**Important:** Automatic humidity control is **disabled in High-Temp mode** by design.
+**Important:** Automatic humidity control is **disabled when temperature reaches 45°C or higher**.
 
 - **Reason**: Ultrasonic mist makers cannot handle high temperatures and will be damaged above ~40-50°C
-- **Affected modes**: When the Mode selector is set to "High-Temp"
-- **Behavior**: The humidity control loop exits early when High-Temp mode is active ([fermentor.yaml:648-651](../esphome/fermentor.yaml#L648-L651))
-- **Manual control**: The mist maker relay can still be manually controlled, but automatic humidity regulation is disabled
-- **Recommendation**: For high-temperature fermentation (black garlic, miso, etc.), rely on natural evaporation or use alternative humidity control methods
+- **Temperature threshold**: Automatically disables when control temp ≥ 45°C
+- **Behavior**: The humidity control loop monitors temperature and forces mist maker OFF if temp exceeds 45°C ([fermentor.yaml:655-673](../esphome/fermentor.yaml#L655-L673))
+- **Mode independent**: Works in both Normal and High-Temp modes as long as temperature stays below 45°C
+- **Manual control**: The mist maker relay can still be manually controlled, but automatic humidity regulation is disabled above 45°C
+- **Use case**: You can now use humidity control in High-Temp mode for ferments that stay below 45°C (e.g., tempeh at 30-35°C, koji at 28-32°C)
 
 ### Humidity Auto Switch
 
@@ -113,7 +114,7 @@ The humidity automation must be **manually enabled** after boot:
 - **Why**: Prevents unexpected misting behavior during initial setup or testing
 - **Tip**: Enable this switch after confirming:
   - Mist maker is connected and working
-  - You're in Normal mode (not High-Temp)
+  - Temperature is below 45°C (or will stay below during operation)
   - Target humidity is set appropriately
 
 ### Mode Switching Behavior
@@ -121,14 +122,14 @@ The humidity automation must be **manually enabled** after boot:
 When switching between Normal and High-Temp modes:
 
 **Normal → High-Temp:**
-- Humidity control automatically disables
+- Humidity control remains active if temperature < 45°C (disabled automatically at 45°C+)
 - Compressor protection: 60-minute cooling lockout begins
 - Turbo heater becomes available (shadows main heater)
 
 **High-Temp → Normal:**
 - 60-minute cooling lockout prevents compressor damage
 - Compressor won't run until lockout expires
-- Humidity control becomes available again (if Auto switch is ON)
+- Humidity control continues working if temperature < 45°C
 
 ### Fan Automation
 
@@ -241,7 +242,7 @@ Special safety feature for high-temperature operation:
 Check in this order:
 
 1. **Humidity Auto switch** - Must be ON
-2. **Mode setting** - Must be "Normal" (not High-Temp)
+2. **Temperature** - Must be below 45°C (automatic cutoff at 45°C+)
 3. **AHT20 sensor** - Verify it's reading humidity correctly
 4. **Mist lockout** - Wait 60 seconds if mister recently hit max runtime
 5. **Target/hysteresis** - Verify settings make sense (default: 70% ± 2%)
@@ -386,6 +387,14 @@ Ideas for future development:
   - Example automations and dashboard examples
 - **Updated**: All documentation files with access/control information
 - **Updated**: Wiring guide with web interface access instructions
+
+### 2026-01-31 (v1.2)
+- **Changed**: Humidity control now temperature-based instead of mode-based
+  - Automatically disables when control temperature reaches 45°C or higher
+  - Works in both Normal and High-Temp modes as long as temp < 45°C
+  - Enables humidity control for medium-temp ferments (tempeh, koji, etc.)
+  - Protects ultrasonic mist maker from heat damage
+- **Updated**: All documentation to reflect temperature-based humidity behavior
 
 ### 2026-01-31 (v1.1)
 - **Added**: Average (Ext 1+2) temperature source option

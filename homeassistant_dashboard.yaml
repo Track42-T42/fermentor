@@ -14,8 +14,8 @@ views:
         cards:
           - type: markdown
             content: |
-              ## 🍺 Fermentation Chamber Status
-              Monitor and control your fermentation environment
+              ## 🍺 Fermentation Chamber
+              **{% if states('select.fermenter_fermenter_mode') == 'High-Temp' %}🔥{% else %}🌡️{% endif %} Mode:** {{ states('select.fermenter_fermenter_mode') }} | **Current Temp:** {{ states('sensor.fermenter_fermenter_control_temp') }}°C
 
           # Temperature Control
           - type: thermostat

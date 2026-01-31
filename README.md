@@ -55,7 +55,7 @@ The system controls 6 relays connected to:
 - Configurable hysteresis to prevent rapid cycling
 - Safety timeout (max 45 minutes continuous misting)
 - **Dry detection**: Monitors if humidity rises as expected when misting; alerts if humidifier runs dry
-- Disabled in High-Temp mode (ultrasonic humidifiers can't handle high temps)
+- Automatically disabled when temperature reaches 45°C or higher (ultrasonic humidifiers can't handle high temps)
 
 #### 6. Door Light Automation
 - Light turns on automatically when door opens
